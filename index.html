@@ -589,8 +589,8 @@ function buildCars() {
       usedIdx.push(c); return c;
     })();
     const startLane = i % LANE_COUNT;
-    const aiSpeeds = [5.4, 5.0, 5.6];
-    const ms = isPlayer ? 5.0 : aiSpeeds[i - 1] ?? 5.2;
+    const aiSpeeds = [4.5, 4.2, 4.7];
+    const ms = isPlayer ? 5.0 : aiSpeeds[i - 1] ?? 4.5;
     cars.push({
       x: laneX(startLane), y: H * (0.6 + i * 0.08),
       lane: startLane, laneX: laneX(startLane),
@@ -760,20 +760,20 @@ function update(dt) {
       const playerProgress = player ? (player.lap - 1) * LAP_DISTANCE + player.dist : 0;
       const aiProgress = (car.lap - 1) * LAP_DISTANCE + car.dist;
       const gap = playerProgress - aiProgress;
-      const rubberBand = gap > 1500 ? 1.25 : gap > 600 ? 1.12 : 1.0;
+      const rubberBand = gap > 2000 ? 1.08 : 1.0;
 
-      // AI nitro bursts (random surges)
+      // AI occasional speed bursts (mild)
       car.aiNitroTimer -= dt;
       if (car.aiNitroTimer <= 0) {
-        car.aiNitroActive = Math.random() < 0.45;
-        car.aiNitroTimer = 80 + Math.random() * 180;
+        car.aiNitroActive = Math.random() < 0.25;
+        car.aiNitroTimer = 150 + Math.random() * 250;
       }
-      const aiNitroMult = car.aiNitroActive ? 1.4 : 1.0;
+      const aiNitroMult = car.aiNitroActive ? 1.12 : 1.0;
 
       const ts2 = activeEvent?.type === 'safety' ? car.maxSpeed * 0.45
                 : car.blowout ? car.maxSpeed * 0.3
                 : car.maxSpeed * rubberBand * aiNitroMult;
-      car.speed += (ts2 - car.speed) * 0.055 * dt;
+      car.speed += (ts2 - car.speed) * 0.04 * dt;
       car.tireWear = Math.max(0, car.tireWear - 0.018 * dt);
       if (car.tireWear < 15 && !car.blowout && Math.random() < 0.0008 * dt) car.blowout = true;
       if ((car.tireWear < 5 || car.blowout) && !car.inPit) { car.inPit = true; car.pitTimer = 120 + Math.random()*50; }
