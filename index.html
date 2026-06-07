@@ -590,8 +590,8 @@ function buildCars() {
       usedIdx.push(c); return c;
     })();
     const startLane = i % LANE_COUNT;
-    const aiSpeeds = [3.8, 3.5, 4.0];
-    const ms = isPlayer ? 5.0 : aiSpeeds[i - 1] ?? 3.8;
+    const aiSpeeds = [4.6, 4.3, 4.8];
+    const ms = isPlayer ? 5.0 : aiSpeeds[i - 1] ?? 4.6;
     cars.push({
       x: laneX(startLane), y: H * (0.6 + i * 0.08),
       lane: startLane, laneX: laneX(startLane),
@@ -762,10 +762,11 @@ function update(dt) {
       const playerProgress = player ? (player.lap - 1) * LAP_DISTANCE + player.dist : 0;
       const aiProgress = (car.lap - 1) * LAP_DISTANCE + car.dist;
       const gap = playerProgress - aiProgress;
+      const rubber = gap > 1800 ? 1.06 : 1.0;
       const ts2 = activeEvent?.type === 'safety' ? car.maxSpeed * 0.45
                 : car.blowout ? car.maxSpeed * 0.3
-                : car.maxSpeed;
-      car.speed += (ts2 - car.speed) * 0.035 * dt;
+                : car.maxSpeed * rubber;
+      car.speed += (ts2 - car.speed) * 0.04 * dt;
       car.tireWear = Math.max(0, car.tireWear - 0.018 * dt);
       if (car.tireWear < 15 && !car.blowout && Math.random() < 0.0008 * dt) car.blowout = true;
       if ((car.tireWear < 5 || car.blowout) && !car.inPit) { car.inPit = true; car.pitTimer = 120 + Math.random()*50; }
