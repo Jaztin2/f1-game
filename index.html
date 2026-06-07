@@ -204,6 +204,20 @@
     width: 14px; height: 14px; border-radius: 50%; background: #fff;
     margin: 2px auto 0; transition: background 0.5s;
   }
+  .rotate-hint {
+    font-size: 12px; color: #555; letter-spacing: 2px; text-align: center;
+    margin-top: -8px;
+  }
+  @media (orientation: landscape) {
+    .rotate-hint { display: none; }
+    #controls { padding: 6px 16px 12px; }
+    .ctrl-btn { width: 70px; height: 70px; font-size: 30px; }
+    #nitroBtn { width: 66px; height: 66px; font-size: 24px; }
+    #nitroBtn span { font-size: 8px; }
+    #pitBtn { width: 46px; height: 46px; font-size: 17px; }
+    #nitroBarBg { height: 10px; }
+    #nitroWrap { gap: 5px; }
+  }
 </style>
 </head>
 <body>
@@ -237,6 +251,7 @@
     </div>
   </div>
   <button class="btn-start" id="startBtn">🚦 START RACE</button>
+  <div class="rotate-hint">📱 ROTATE FOR BEST EXPERIENCE</div>
 </div>
 
 <div id="gameScreen" class="screen">
@@ -287,6 +302,8 @@ const TOTAL_LAPS = 3;
 const TRACK_WIDTH_RATIO = 0.72;
 const LAP_DISTANCE = 6000;
 const CAR_W = 28, CAR_H = 52;
+const LANE_COUNT = 3;
+let gTrackL = 0, gTrackW = 0, gLaneW = 0;
 
 let canvas, ctx, W, H;
 let animId;
@@ -532,6 +549,9 @@ document.getElementById('carSelect').addEventListener('click', e => {
 
 function startGame() {
   playerName = document.getElementById('playerNameInput').value.trim() || 'Driver';
+  if (screen.orientation && screen.orientation.lock) {
+    screen.orientation.lock('landscape').catch(() => {});
+  }
   showScreen('gameScreen');
   initCanvas();
   buildCars();
@@ -557,12 +577,17 @@ function initCanvas() {
   ctx = canvas.getContext('2d');
 }
 
+function computeTrack() {
+  // Cap track width so it's not absurdly wide in landscape
+  gTrackW = Math.min(W * TRACK_WIDTH_RATIO, H * 0.88);
+  gTrackL = (W - gTrackW) / 2;
+  gLaneW  = gTrackW / LANE_COUNT;
+}
+
 function buildCars() {
   cars = [];
-  const LANE_COUNT = 3;
-  const trackW = W * TRACK_WIDTH_RATIO;
-  const trackL = (W - trackW) / 2;
-  const laneW  = trackW / LANE_COUNT;
+  computeTrack();
+  const trackW = gTrackW, trackL = gTrackL, laneW = gLaneW;
   function laneX(lane) { return trackL + laneW * lane + laneW / 2; }
 
   const aiNames = ['Verstappen','Hamilton','Leclerc','Norris'];
@@ -700,7 +725,7 @@ function update(dt) {
   }
   if (player?.pitCooldown > 0) player.pitCooldown -= dt;
 
-  const { trackL, laneW, laneCount } = cars[0];
+  const trackL = gTrackL, laneW = gLaneW, laneCount = LANE_COUNT;
   for (const car of cars) {
     if (car.finished) continue;
     if (!car.isPlayer) {
@@ -1199,8 +1224,23 @@ function showResults() {
 
 // ── INIT ───────────────────────────────────
 // logos loaded via img src
+function handleResize() {
+  initCanvas();
+  computeTrack();
+  // Reposition cars to match new track dimensions without resetting race
+  for (const c of cars) {
+    c.laneW = gLaneW; c.trackL = gTrackL; c.trackW = gTrackW;
+    const tX = gTrackL + gLaneW * c.targetLane + gLaneW / 2;
+    c.laneX = tX; c.x = tX;
+  }
+}
 window.addEventListener('resize', () => {
-  if (document.getElementById('gameScreen').classList.contains('active')) { initCanvas(); buildCars(); }
+  if (document.getElementById('gameScreen').classList.contains('active')) handleResize();
+});
+window.addEventListener('orientationchange', () => {
+  setTimeout(() => {
+    if (document.getElementById('gameScreen').classList.contains('active')) handleResize();
+  }, 300);
 });
 document.addEventListener('touchmove', e => e.preventDefault(), { passive: false });
 </script>
