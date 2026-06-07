@@ -551,6 +551,7 @@ function startGame() {
   nitroCharge = 0;
   nitroActive = false;
 
+  lastTime = 0;
   enableTilt();
   doCountdown();
 }
@@ -695,6 +696,7 @@ let lastTime = 0;
 function loop(ts = 0) {
   if (!gameRunning) return;
   animId = requestAnimationFrame(loop);
+  if (lastTime === 0) { lastTime = ts; return; } // skip first frame to seed timestamp
   const dt = Math.min((ts - lastTime) / 16.67, 3);
   lastTime = ts;
   try { update(dt); } catch(e) { console.error('update error:', e); }
