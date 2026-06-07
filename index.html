@@ -95,66 +95,66 @@
   }
   #raceCanvas { display: block; position: absolute; top: 0; left: 0; }
   #controls {
-    position: absolute; bottom: 0; left: 0; right: 0; z-index: 20;
+    position: absolute; bottom: 0; left: 0; right: 0; z-index: 100;
     display: flex; justify-content: space-between; align-items: flex-end;
-    padding: 10px 12px 24px;
-    background: linear-gradient(transparent, rgba(0,0,0,0.85));
+    padding: 12px 16px 28px;
+    background: linear-gradient(transparent, rgba(0,0,0,0.92) 40%);
     pointer-events: none;
   }
-  .ctrl-side { display: flex; flex-direction: column; align-items: center; gap: 6px; pointer-events: all; }
-  .ctrl-label { font-size: 11px; color: rgba(255,255,255,0.65); letter-spacing: 2px; font-weight: 900; }
+  .ctrl-side { display: flex; flex-direction: column; align-items: center; gap: 5px; pointer-events: all; }
+  .ctrl-label { font-size: 12px; color: #fff; letter-spacing: 3px; font-weight: 900; opacity: 0.9; text-shadow: 0 1px 4px #000; }
   .ctrl-btn {
-    width: 86px; height: 86px; border-radius: 50%;
-    border: 3px solid rgba(255,255,255,0.55);
-    background: rgba(15,15,30,0.92); backdrop-filter: blur(12px);
-    font-size: 36px; display: flex; align-items: center; justify-content: center;
+    width: 92px; height: 92px; border-radius: 50%;
+    border: 3px solid #fff;
+    background: rgba(30,30,50,0.95);
+    font-size: 40px; display: flex; align-items: center; justify-content: center;
     cursor: pointer; -webkit-tap-highlight-color: transparent; transition: all 0.08s;
-    box-shadow: 0 6px 28px rgba(0,0,0,0.85), inset 0 1px 0 rgba(255,255,255,0.18);
+    box-shadow: 0 0 0 2px rgba(255,255,255,0.3), 0 8px 32px rgba(0,0,0,0.9);
     color: #fff;
   }
-  .ctrl-btn:active { background: rgba(255,255,255,0.22); transform: scale(0.88); border-color: #fff; }
+  .ctrl-btn:active, .ctrl-btn.pressed { background: rgba(255,255,255,0.3); transform: scale(0.86); box-shadow: 0 0 24px rgba(255,255,255,0.4); }
   #nitroWrap {
     pointer-events: all; display: flex; flex-direction: column;
-    align-items: center; gap: 8px; flex: 1; max-width: 160px; margin: 0 6px 4px;
+    align-items: center; gap: 8px; flex: 1; max-width: 160px; margin: 0 8px 2px;
   }
   #nitroBarBg {
-    width: 100%; height: 13px; background: rgba(255,255,255,0.07);
-    border-radius: 7px; border: 1px solid rgba(255,255,255,0.22); overflow: hidden;
+    width: 100%; height: 14px; background: rgba(0,0,0,0.6);
+    border-radius: 7px; border: 2px solid rgba(255,255,255,0.4); overflow: hidden;
   }
   #nitroBarFill {
     height: 100%; width: 0%;
-    background: linear-gradient(90deg, #0044ff, #00aaff, #00ffee);
-    border-radius: 7px; box-shadow: 0 0 8px #00aaff; transition: width 0.12s;
+    background: linear-gradient(90deg, #0055ff, #00ccff, #00ffee);
+    border-radius: 7px; box-shadow: 0 0 10px #00aaff; transition: width 0.1s;
   }
   #nitroBarFill.active {
-    background: linear-gradient(90deg, #ff00aa, #ff4400, #ffcc00);
-    box-shadow: 0 0 16px #ff5500;
+    background: linear-gradient(90deg, #ff0080, #ff5500, #ffdd00);
+    box-shadow: 0 0 18px #ff6600;
   }
   #nitroBtn {
-    width: 80px; height: 80px; border-radius: 22px;
-    border: 3px solid rgba(0,180,255,0.85);
-    background: rgba(0,35,90,0.88); backdrop-filter: blur(12px);
-    font-size: 30px; display: flex; align-items: center; justify-content: center;
+    width: 84px; height: 84px; border-radius: 22px;
+    border: 3px solid #00ccff;
+    background: rgba(0,20,70,0.95);
+    font-size: 32px; display: flex; align-items: center; justify-content: center;
     flex-direction: column; gap: 2px; cursor: pointer; -webkit-tap-highlight-color: transparent;
-    box-shadow: 0 0 20px rgba(0,160,255,0.55), 0 6px 24px rgba(0,0,0,0.85);
+    box-shadow: 0 0 22px rgba(0,180,255,0.7), 0 0 0 2px rgba(0,180,255,0.3), 0 8px 24px rgba(0,0,0,0.9);
     transition: all 0.08s; color: #fff;
   }
-  #nitroBtn span { font-size: 9px; letter-spacing: 1px; color: #55ddff; font-weight: 900; }
+  #nitroBtn span { font-size: 10px; letter-spacing: 2px; color: #00eeff; font-weight: 900; }
   #nitroBtn.burning {
-    background: rgba(140,40,0,0.92); border-color: rgba(255,130,0,1);
-    box-shadow: 0 0 30px rgba(255,90,0,0.95), 0 6px 24px rgba(0,0,0,0.85);
+    background: rgba(120,30,0,0.95); border-color: #ff6600;
+    box-shadow: 0 0 36px rgba(255,100,0,1), 0 0 0 2px rgba(255,100,0,0.4), 0 8px 24px rgba(0,0,0,0.9);
   }
-  #nitroBtn.empty { opacity: 0.38; border-color: rgba(255,255,255,0.2); }
+  #nitroBtn.empty { opacity: 0.4; border-color: rgba(255,255,255,0.25); box-shadow: none; }
   #pitBtn {
-    width: 54px; height: 54px; border-radius: 15px; font-size: 20px; color: #fff;
+    width: 58px; height: 58px; border-radius: 16px; font-size: 22px; color: #fff;
     display: flex; flex-direction: column; gap: 2px;
     align-items: center; justify-content: center;
     pointer-events: all; cursor: pointer; -webkit-tap-highlight-color: transparent;
-    background: rgba(255,180,0,0.2); border: 2px solid rgba(255,180,0,0.65);
-    box-shadow: 0 0 12px rgba(255,180,0,0.3), 0 4px 16px rgba(0,0,0,0.7);
+    background: rgba(200,140,0,0.25); border: 2px solid #ffcc00;
+    box-shadow: 0 0 14px rgba(255,200,0,0.5), 0 4px 16px rgba(0,0,0,0.8);
   }
-  #pitBtn span { font-size: 9px; letter-spacing: 1px; color: #ffcc44; font-weight: 900; }
-  #pitBtn:active { background: rgba(255,180,0,0.5); transform: scale(0.92); }
+  #pitBtn span { font-size: 10px; letter-spacing: 1px; color: #ffdd44; font-weight: 900; }
+  #pitBtn:active { background: rgba(255,200,0,0.45); transform: scale(0.91); }
 
   #resultScreen {
     background: linear-gradient(180deg, #0a0a1a 0%, #1a0a2e 60%, #0d0d0d 100%);
@@ -575,7 +575,8 @@ function buildCars() {
       usedIdx.push(c); return c;
     })();
     const startLane = i % LANE_COUNT;
-    const ms = isPlayer ? 5.0 : 4.2 + Math.random() * 0.8;
+    const aiSpeeds = [5.4, 5.0, 5.6];
+    const ms = isPlayer ? 5.0 : aiSpeeds[i - 1] ?? 5.2;
     cars.push({
       x: laneX(startLane), y: H * (0.6 + i * 0.08),
       lane: startLane, laneX: laneX(startLane),
@@ -586,6 +587,7 @@ function buildCars() {
       colorIdx, tireWear: 100, pitCooldown: 0,
       inPit: false, pitTimer: 0, blowout: false,
       laneW, trackL, trackW, laneCount: LANE_COUNT,
+      aiNitroTimer: 0, aiNitroActive: false, aiLaneTimer: 0,
     });
   }
 }
@@ -702,19 +704,49 @@ function update(dt) {
   for (const car of cars) {
     if (car.finished) continue;
     if (!car.isPlayer) {
+      // Rubber-band: if far behind player, boost speed
+      const playerProgress = player ? (player.lap - 1) * LAP_DISTANCE + player.dist : 0;
+      const aiProgress = (car.lap - 1) * LAP_DISTANCE + car.dist;
+      const gap = playerProgress - aiProgress;
+      const rubberBand = gap > 1500 ? 1.25 : gap > 600 ? 1.12 : 1.0;
+
+      // AI nitro bursts (random surges)
+      car.aiNitroTimer -= dt;
+      if (car.aiNitroTimer <= 0) {
+        car.aiNitroActive = Math.random() < 0.45;
+        car.aiNitroTimer = 80 + Math.random() * 180;
+      }
+      const aiNitroMult = car.aiNitroActive ? 1.4 : 1.0;
+
       const ts2 = activeEvent?.type === 'safety' ? car.maxSpeed * 0.45
-                : car.blowout ? car.maxSpeed * 0.35 : car.maxSpeed;
-      car.speed += (ts2 - car.speed) * 0.03 * dt;
-      car.tireWear = Math.max(0, car.tireWear - 0.012 * dt);
-      if (car.tireWear < 15 && !car.blowout && Math.random() < 0.0005 * dt) car.blowout = true;
-      if ((car.tireWear < 5 || car.blowout) && !car.inPit) { car.inPit = true; car.pitTimer = 140 + Math.random()*60; }
+                : car.blowout ? car.maxSpeed * 0.3
+                : car.maxSpeed * rubberBand * aiNitroMult;
+      car.speed += (ts2 - car.speed) * 0.055 * dt;
+      car.tireWear = Math.max(0, car.tireWear - 0.018 * dt);
+      if (car.tireWear < 15 && !car.blowout && Math.random() < 0.0008 * dt) car.blowout = true;
+      if ((car.tireWear < 5 || car.blowout) && !car.inPit) { car.inPit = true; car.pitTimer = 120 + Math.random()*50; }
       if (car.inPit) {
-        car.speed = Math.max(0, car.speed - 0.3 * dt);
+        car.speed = Math.max(0, car.speed - 0.4 * dt);
         car.pitTimer -= dt;
         if (car.pitTimer <= 0) { car.inPit = false; car.tireWear = 100; car.blowout = false; }
       }
-      if (Math.random() < 0.005 * dt) {
-        const nl = car.targetLane + (Math.random() < 0.5 ? -1 : 1);
+
+      // Smart lane logic: try to block player or overtake nearby AI
+      car.aiLaneTimer -= dt;
+      if (car.aiLaneTimer <= 0) {
+        car.aiLaneTimer = 30 + Math.random() * 60;
+        const playerLane = player ? player.targetLane ?? player.lane : -1;
+        const nearPlayer = player && Math.abs(gap) < 800;
+        let nl;
+        if (nearPlayer && gap < 0 && Math.random() < 0.7) {
+          // AI is ahead — move to player's lane to block
+          nl = playerLane;
+        } else if (nearPlayer && gap > 0 && Math.random() < 0.6) {
+          // AI is behind — try to get into adjacent lane to overtake
+          nl = playerLane + (Math.random() < 0.5 ? -1 : 1);
+        } else {
+          nl = car.targetLane + (Math.random() < 0.5 ? -1 : 1);
+        }
         if (nl >= 0 && nl < laneCount) car.targetLane = nl;
       }
     }
